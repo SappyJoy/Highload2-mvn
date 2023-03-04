@@ -1,0 +1,6 @@
+---
+refresh:
+  token:
+    duration:
+      ms: 600000
+

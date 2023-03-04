@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  eureka-server:
+    container_name: eureka-server
+    image: eurekaserverimage
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+  config-service:
+    image: configserviceimage
+    container_name: config-service
+    build: ./config-service
+    ports:
+      - "8762:8762"
+    environment:
+      PORT: 8762
+      EUREKA_ADDRESS: "eureka-server:8761"
+    depends_on:
+      - eureka-server
+  auth-service:
+    image: authserviceimage
+    container_name: auth-service
+    build: ./auth-service
+    ports:
+      - "8082:8082"
+    environment:
+      PORT: 8082
+      EUREKA_ADDRESS: "eureka-server:8761"
+      CONFIG_URL: "config-service:8762"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+        delay: 3s
+    depends_on:
+      - config-service

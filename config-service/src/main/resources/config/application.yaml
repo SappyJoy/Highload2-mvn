@@ -2,3 +2,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${EUREKA_ADDRESS:localhost:8761}/eureka
+
+auth:
+  service:
+    app:
+      name: "auth-service"
+    context:
+      path: "/api/auth"
