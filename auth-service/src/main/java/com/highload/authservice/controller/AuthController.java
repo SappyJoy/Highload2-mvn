@@ -1,6 +1,5 @@
 package com.highload.authservice.controller;
 
-import com.highload.authservice.dto.AuthenticationRequestDto;
 import com.highload.authservice.security.JwtProvider;
 import com.highload.authservice.service.AuthService;
 import com.highload.authservice.dto.LoginRequestDto;
