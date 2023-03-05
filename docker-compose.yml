@@ -1,5 +1,9 @@
 version: '3.8'
 services:
+  shared_lib:
+    container_name: shared_lib
+    image: shared_lib
+    build: ./shared_lib
   eureka-server:
     container_name: eureka-server
     image: eurekaserverimage
@@ -34,3 +38,4 @@ services:
         delay: 3s
     depends_on:
       - config-service
+      - shared_lib

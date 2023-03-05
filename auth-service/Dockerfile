@@ -1,4 +1,4 @@
-FROM maven:3.8-openjdk-17 as build
+FROM shared_lib as build
 ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
