@@ -1,6 +1,9 @@
 package com.highload.authservice.security;
 
+import com.highload.authservice.exception.UserExistException;
 import com.highload.feign.dto.UserDto;
+import com.highload.feign.model.User;
+import com.highload.feign.reactive_client.UserClient;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,17 +21,19 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class JwtProvider {
+    private final UserClient userClient;
     @Value("${jwt.token.secret}")
     private String jwtSecret;
 
-    public String generateJwtToken(UserDto userDto) {
+    public String generateJwtToken(UUID userId) {
         LocalDateTime now = LocalDateTime.now();
         Date issuedAt = Date.from(now.toInstant(ZoneOffset.UTC));
         Date expiration = Date.from(now.plusHours(1).toInstant(ZoneOffset.UTC));
+        User user = userClient.getUserById(userId);
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("username", userDto.getUsername());
-        claims.put("roles", userDto.getRoles());
+        claims.put("username", user.getUsername());
+        claims.put("roles", user.getRoles());
         return Jwts
                 .builder()
                 .setIssuedAt(issuedAt)

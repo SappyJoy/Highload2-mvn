@@ -5,6 +5,7 @@ import com.highload.authservice.service.AuthService;
 import com.highload.authservice.dto.LoginRequestDto;
 import com.highload.feign.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,16 +25,20 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public Mono<LoginRequestDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
-//        return authService.login();
-        return null;
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        String response = authService.login(loginRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
     @PostMapping("/sign_up")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public ResponseEntity<String> signUp(@Valid @RequestBody UserDto userDto) {
-//        return authService.signUpUser(userDto);
-        return null;
+        authService.signUpUser(userDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User created!");
     }
 
 }

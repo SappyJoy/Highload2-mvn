@@ -1,6 +1,7 @@
 package com.highload.userservice.controller;
 
 import com.highload.feign.dto.UserDto;
+import com.highload.feign.model.User;
 import com.highload.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,13 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.updateUser(userDto, userId, userDetails));
+    }
+
+    @PostMapping("/createUser")
+    public ResponseEntity<UserDto> createUser(@RequestBody User user) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.create(user));
     }
 
     @DeleteMapping("/{user_id}")

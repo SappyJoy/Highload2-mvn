@@ -91,6 +91,8 @@ public class UserService implements UserDetailsService {
                                 .map(userDto, User.class)), UserDto.class);
     }
 
+    public
+
     @Transactional
     public void deleteUser(UUID userId) {
         userDao.deleteUserByUserId(userId);
