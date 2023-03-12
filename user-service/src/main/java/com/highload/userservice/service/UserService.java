@@ -6,7 +6,8 @@ import com.highload.feign.exceptions.NoSuchEntityException;
 import com.highload.feign.exceptions.PermissionDeniedException;
 import com.highload.feign.model.User;
 import com.highload.userservice.exceptions.UserExistException;
-import com.highload.userservice.repository.UserRepository;
+import com.highload.userservice.jdbc.UserDao;
+import com.highload.userservice.jdbc.UserDaoImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
@@ -26,14 +27,13 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    private final UserRepository userRepository;
+    private final UserDao userDao = new UserDaoImpl(); // Which dataSource?
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ModelMapper modelMapper;
 
     public List<UserDto> getAllUsers(Integer pageSize, Integer pageNum) {
-        Pageable page = PageRequest.of(pageNum, pageSize);
-        return userRepository
-                .findAll(page)
+        return userDao
+                .findAll()
                 .stream()
                 .map(user -> modelMapper.map(user, UserDto.class))
                 .toList();
@@ -45,20 +45,20 @@ public class UserService implements UserDetailsService {
 
     @SneakyThrows
     public User getUserById(UUID userId) {
-        return userRepository
+        return userDao
                 .findUserByUserId(userId)
                 .orElseThrow(() -> new NoSuchEntityException("User with id " + userId + " not found"));
     }
 
     @SneakyThrows
     public Optional<UserDto> signUpUser(UserDto userDto) {
-        Optional<User> userDb = userRepository.findByUsername(userDto.getUsername());
+        Optional<User> userDb = userDao.findByUsername(userDto.getUsername());
         if (userDb.isPresent()) {
             throw new UserExistException("User already exists");
         }
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         return Optional.of(modelMapper
-                .map(userRepository
+                .map(userDao
                         .save(modelMapper
                                 .map(userDto, User.class)), UserDto.class));
     }
@@ -86,20 +86,20 @@ public class UserService implements UserDetailsService {
             throw new PermissionDeniedException("You haven't rights for updating this user");
         }
         return modelMapper
-                .map(userRepository
+                .map(userDao
                         .save(modelMapper
                                 .map(userDto, User.class)), UserDto.class);
     }
 
     @Transactional
     public void deleteUser(UUID userId) {
-        userRepository.deleteUserByUserId(userId);
+        userDao.deleteUserByUserId(userId);
     }
 
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return userRepository
+        return userDao
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User with username = " + username + " not found"));
     }
