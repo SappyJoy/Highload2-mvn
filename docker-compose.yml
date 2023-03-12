@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./volumes/portainer-data:/data
+    ports:
+      - "9000:9000"
   postgres_users:
     image: postgres:14.5-alpine
     environment:
@@ -46,7 +58,6 @@ services:
       restart_policy:
         condition: on-failure
         max_attempts: 3
-        delay: 3s
     depends_on:
       - config-service
       - postgres_users
@@ -65,9 +76,80 @@ services:
 #      restart_policy:
 #        condition: on-failure
 #        max_attempts: 5
-#        delay: 3s
 #    depends_on:
 #      - postgres_users
 #      - config-service
 #      - user-service
 #      - shared_lib
+  person-service:
+    image: personserviceimage
+    container_name: person-service
+    build: ./person-service
+    ports:
+      - "8083:8083"
+    environment:
+      PORT: 8083
+      EUREKA_ADDRESS: "eureka-server:8761"
+      CONFIG_URL: "config-service:8762"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    depends_on:
+      - config-service
+      - postgres_users
+      - shared_lib
+  content-service:
+    image: contentserviceimage
+    container_name: content-service
+    build: ./content-service
+    ports:
+      - "8084:8084"
+    environment:
+      PORT: 8084
+      EUREKA_ADDRESS: "eureka-server:8761"
+      CONFIG_URL: "config-service:8762"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    depends_on:
+      - config-service
+      - postgres_users
+      - shared_lib
+  card-service:
+    image: cardserviceimage
+    container_name: card-service
+    build: ./card-service
+    ports:
+      - "8085:8085"
+    environment:
+      PORT: 8085
+      EUREKA_ADDRESS: "eureka-server:8761"
+      CONFIG_URL: "config-service:8762"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    depends_on:
+      - config-service
+      - postgres_users
+      - shared_lib
+  market-service:
+    image: marketserviceimage
+    container_name: market-service
+    build: ./market-service
+    ports:
+      - "8086:8086"
+    environment:
+      PORT: 8086
+      EUREKA_ADDRESS: "eureka-server:8761"
+      CONFIG_URL: "config-service:8762"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    depends_on:
+      - config-service
+      - postgres_users
+      - shared_lib

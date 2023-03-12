@@ -23,8 +23,8 @@ public class UserDaoImpl implements UserDao {
 
 
     @Autowired
-    public UserDaoImpl(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+    public UserDaoImpl() {
+        jdbcTemplate = new JdbcTemplate();
     }
 
     public List<User> findAll() {

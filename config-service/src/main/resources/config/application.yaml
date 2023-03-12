@@ -16,3 +16,31 @@ user:
       name: "user-service"
     context:
       path: "/api/user"
+
+person:
+  service:
+    app:
+      name: "person-service"
+    context:
+      path: "/api/persons"
+
+content:
+  service:
+    app:
+      name: "content-service"
+    context:
+      path: "/api/details"
+
+card:
+  service:
+    app:
+      name: "card-service"
+    context:
+      path: "/api/cards"
+
+market:
+  service:
+    app:
+      name: "market-service"
+    context:
+      path: "/api/markets"

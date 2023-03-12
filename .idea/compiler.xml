@@ -10,8 +10,12 @@
         <module name="shared_lib" />
         <module name="auth-service" />
         <module name="config-service" />
+        <module name="content-service" />
+        <module name="person-service" />
         <module name="user-service" />
+        <module name="card-service" />
         <module name="eureka-server" />
+        <module name="market-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,8 +25,12 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="auth-service" options="-parameters" />
+      <module name="card-service" options="-parameters" />
       <module name="config-service" options="-parameters" />
+      <module name="content-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="market-service" options="-parameters" />
+      <module name="person-service" options="-parameters" />
       <module name="shared" options="-parameters" />
       <module name="shared_lib" options="-parameters" />
       <module name="user-service" options="-parameters" />

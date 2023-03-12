@@ -27,7 +27,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    private final UserDao userDao = new UserDaoImpl(); // Which dataSource?
+    private final UserDao userDao = new UserDaoImpl();
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ModelMapper modelMapper;
 
