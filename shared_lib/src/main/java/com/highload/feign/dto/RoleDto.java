@@ -1,4 +1,4 @@
-package com.highload.shared_lib.feign.dto;
+package com.highload.feign.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

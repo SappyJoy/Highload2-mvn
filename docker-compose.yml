@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  postgres_users:
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_DB: users_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    volumes:
+      - "./volumes/postgres_users:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
   shared_lib:
     container_name: shared_lib
     image: shared_lib
@@ -21,21 +32,42 @@ services:
       EUREKA_ADDRESS: "eureka-server:8761"
     depends_on:
       - eureka-server
-  auth-service:
-    image: authserviceimage
-    container_name: auth-service
-    build: ./auth-service
+  user-service:
+    image: userserviceimage
+    container_name: user-service
+    build: ./user-service
     ports:
-      - "8082:8082"
+      - "8081:8081"
     environment:
-      PORT: 8082
+      PORT: 8081
       EUREKA_ADDRESS: "eureka-server:8761"
       CONFIG_URL: "config-service:8762"
     deploy:
       restart_policy:
         condition: on-failure
-        max_attempts: 5
+        max_attempts: 3
         delay: 3s
     depends_on:
       - config-service
+      - postgres_users
       - shared_lib
+#  auth-service:
+#    image: authserviceimage
+#    container_name: auth-service
+#    build: ./auth-service
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      PORT: 8082
+#      EUREKA_ADDRESS: "eureka-server:8761"
+#      CONFIG_URL: "config-service:8762"
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
+#        max_attempts: 5
+#        delay: 3s
+#    depends_on:
+#      - postgres_users
+#      - config-service
+#      - user-service
+#      - shared_lib

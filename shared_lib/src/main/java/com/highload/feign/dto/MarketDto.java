@@ -1,6 +1,6 @@
-package com.highload.shared_lib.feign.dto;
+package com.highload.feign.dto;
 
-import highload.lab1.model.Person;
+import com.highload.feign.model.Person;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

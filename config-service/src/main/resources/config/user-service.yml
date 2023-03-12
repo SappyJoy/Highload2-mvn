@@ -1,0 +1,17 @@
+---
+spring:
+  cloud:
+    gcp:
+      sql:
+        enabled: false
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_ADDRESS:localhost:5432}/user_service
+    username: postgres
+    password: postgres_password
+    hikari:
+      maximumPoolSize: 5
+      connection-timeout: 20000
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none

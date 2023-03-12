@@ -1,4 +1,4 @@
-package com.highload.authservice;
+package com.highload.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,13 +6,13 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
-@ComponentScan(basePackages = {"com.highload.authservice","com.highload.feign"})
+//@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@ComponentScan(basePackages = {"com.highload.userservice","com.highload.feign"})
 @EnableDiscoveryClient
-public class AuthServiceApplication {
+public class UserServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthServiceApplication.class, args);
+        SpringApplication.run(UserServiceApplication.class, args);
     }
 
 }

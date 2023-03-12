@@ -9,3 +9,10 @@ auth:
       name: "auth-service"
     context:
       path: "/api/auth"
+
+user:
+  service:
+    app:
+      name: "user-service"
+    context:
+      path: "/api/user"

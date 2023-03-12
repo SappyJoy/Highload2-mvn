@@ -1,6 +1,6 @@
-package com.highload.shared_lib.feign.dto;
+package com.highload.feign.dto;
 
-import highload.lab1.model.enums.Rarity;
+import com.highload.feign.enums.Rarity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
