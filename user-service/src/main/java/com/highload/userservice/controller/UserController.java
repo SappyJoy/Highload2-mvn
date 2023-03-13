@@ -37,6 +37,13 @@ public class UserController {
                 .body(userService.getUser(userId));
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDto> getUser(@PathVariable(name = "username") String username) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getUserByUsername(username));
+    }
+
     @PatchMapping("/{user_id}")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,
@@ -48,10 +55,12 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public ResponseEntity<UserDto> createUser(@RequestBody User user) {
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto,
+                                              @AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userService.create(user));
+                .body(userService.createUser(userDto, userDetails));
     }
 
     @DeleteMapping("/{user_id}")

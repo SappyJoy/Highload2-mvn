@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import reactivefeign.spring.config.ReactiveFeignClient;
 import reactor.core.publisher.Mono;
 
@@ -16,7 +17,13 @@ import java.util.UUID;
 @Component
 public interface UserClient {
 
+    @GetMapping("/{username}")
+    public Mono<UserDto> authenticate(@PathVariable(name = "username") String username);
+
     @GetMapping("/{user_id}")
-    public User getUserById(@PathVariable(name = "user_id") UUID user_id);
+    public Mono<UserDto> getUserById(@PathVariable(name = "user_id") UUID user_id);
+
+    @PostMapping("/createUser")
+    public Mono<UserDto> createUser(@RequestBody UserDto userDto);
 
 }

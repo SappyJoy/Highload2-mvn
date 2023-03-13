@@ -25,15 +25,14 @@ public class JwtProvider {
     @Value("${jwt.token.secret}")
     private String jwtSecret;
 
-    public String generateJwtToken(UUID userId) {
+    public String generateJwtToken(UserDto userDto) {
         LocalDateTime now = LocalDateTime.now();
         Date issuedAt = Date.from(now.toInstant(ZoneOffset.UTC));
         Date expiration = Date.from(now.plusHours(1).toInstant(ZoneOffset.UTC));
-        User user = userClient.getUserById(userId);
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("username", user.getUsername());
-        claims.put("roles", user.getRoles());
+        claims.put("username", userDto.getUsername());
+        claims.put("roles", userDto.getRoles());
         return Jwts
                 .builder()
                 .setIssuedAt(issuedAt)
@@ -70,5 +69,9 @@ public class JwtProvider {
             log.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false;
+    }
+
+    public String getUsername(String token) {
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 }

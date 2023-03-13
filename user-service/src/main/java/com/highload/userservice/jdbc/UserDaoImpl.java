@@ -1,11 +1,11 @@
 package com.highload.userservice.jdbc;
 
+import com.highload.feign.model.Role;
 import com.highload.feign.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,7 +19,8 @@ public class UserDaoImpl implements UserDao {
     private final String SQL_GET_BY_ID = "SELECT * FROM `USER` JOIN `USER_ROLE` ON `USER_ROLE`.user_id = `USER`.user_id WHERE user_id = ?";
     private final String SQL_DELETE_USER = "DELETE FROM `USER` WHERE user_id = ?";
     private final String SQL_GET_BY_USERNAME = "SELECT * FROM `USER` JOIN `USER_ROLE` ON `USER_ROLE`.user_id = `USER`.user_id WHERE username = ?";
-    private final String SQL_INSERT_USER = "INSERT INTO `USER`(user_id, username, password)";
+    private final String SQL_INSERT_USER = "INSERT INTO `USER` (user_id, username, password) VALUES (?, ?, ?)";
+    private final String SQL_INSERT_ROLE = "INSERT INTO `USER_ROLES` (user_id, role_id) VALUES (?, ?)";
 
 
     @Autowired
@@ -47,6 +48,14 @@ public class UserDaoImpl implements UserDao {
 //        user.setRoles(rs.getString("roles"));
             return user;
         }));
+    }
+
+    public User insertUser(User user) {
+        jdbcTemplate.update(SQL_INSERT_USER, user.getUserId(), user.getUsername(), user.getPassword());
+        for (Role role : user.getRoles()) {
+            jdbcTemplate.update(SQL_INSERT_ROLE, user.getUserId(), role.getRoleId());
+        }
+        return user;
     }
 
     public boolean deleteUserByUserId(UUID id) {
