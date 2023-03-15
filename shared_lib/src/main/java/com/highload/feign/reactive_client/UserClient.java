@@ -18,12 +18,12 @@ import java.util.UUID;
 public interface UserClient {
 
     @GetMapping("/{username}")
-    public Mono<UserDto> authenticate(@PathVariable(name = "username") String username);
+    Mono<UserDto> authenticate(@PathVariable(name = "username") String username);
 
     @GetMapping("/{user_id}")
-    public Mono<UserDto> getUserById(@PathVariable(name = "user_id") UUID user_id);
+    Mono<UserDto> getUserById(@PathVariable(name = "user_id") UUID user_id);
 
     @PostMapping("/createUser")
-    public Mono<UserDto> createUser(@RequestBody UserDto userDto);
+    Mono<UserDto> createUser(@RequestBody UserDto userDto);
 
 }
