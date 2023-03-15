@@ -12,8 +12,10 @@
         <module name="config-service" />
         <module name="content-service" />
         <module name="person-service" />
+        <module name="spring-gateway" />
         <module name="user-service" />
         <module name="card-service" />
+        <module name="order-service" />
         <module name="eureka-server" />
         <module name="market-service" />
       </profile>
@@ -32,9 +34,11 @@
       <module name="eureka-server" options="-parameters" />
       <module name="market-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
+      <module name="order-service" options="-parameters" />
       <module name="person-service" options="-parameters" />
       <module name="shared" options="-parameters" />
       <module name="shared_lib" options="-parameters" />
+      <module name="spring-gateway" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

@@ -1,0 +1,240 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Market API",
+    "description": "Documentation Market API v1.0",
+    "version": "${springdoc.version}"
+  },
+  "servers": [
+    {
+      "url": "http://spring-gateway:7777",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/markets": {
+      "get": {
+        "tags": [
+          "market-controller"
+        ],
+        "summary": "Get all markets",
+        "operationId": "getAllMarkets",
+        "responses": {
+          "default": {
+            "description": "Market DTOs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "market-controller"
+        ],
+        "summary": "Insert new market",
+        "operationId": "insertMarket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "marketDto": {
+                    "$ref": "#/components/schemas/MarketDto"
+                  },
+                  "persons": {
+                    "uniqueItems": true,
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PersonDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "Market DTOs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/markets/{market_id}": {
+      "get": {
+        "tags": [
+          "market-controller"
+        ],
+        "summary": "Get market by marketId",
+        "operationId": "getMarketById",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Market DTO",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "market-controller"
+        ],
+        "summary": "Delete market by marketId",
+        "operationId": "deleteMarket",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Message string",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PersonDto": {
+        "type": "object",
+        "properties": {
+          "personId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "team": {
+            "type": "string"
+          },
+          "rarity": {
+            "type": "string",
+            "enum": [
+              "BEGINNERS",
+              "MEDIUM",
+              "PROFI"
+            ]
+          },
+          "balance": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserDto"
+          }
+        }
+      },
+      "MarketDto": {
+        "type": "object",
+        "properties": {
+          "marketId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "cost": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "persons": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonDto"
+            }
+          }
+        }
+      },
+      "RoleDto": {
+        "type": "object",
+        "properties": {
+          "roleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleName": {
+            "type": "string"
+          }
+        }
+      },
+      "UserDto": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleDto"
+            }
+          }
+        }
+      }
+    }
+  }
+}
