@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Highload2.iml" filepath="$PROJECT_DIR$/Highload2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/shared_lib/shared_lib.iml" filepath="$PROJECT_DIR$/shared_lib/shared_lib.iml" />
     </modules>
   </component>
 </project>
