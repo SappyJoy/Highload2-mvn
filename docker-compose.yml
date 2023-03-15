@@ -23,6 +23,17 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+  postgres_market:
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_DB: market_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    volumes:
+      - "./volumes/postgres_users:/var/lib/postgresql/data"
+    ports:
+      - "5433:5433"
+    restart: unless-stopped
   shared_lib:
     container_name: shared_lib
     image: shared_lib
@@ -44,25 +55,25 @@ services:
       EUREKA_ADDRESS: "eureka-server:8761"
     depends_on:
       - eureka-server
-  user-service:
-    image: userserviceimage
-    container_name: user-service
-    build: ./user-service
-    ports:
-      - "8081:8081"
-    environment:
-      PORT: 8081
-      EUREKA_ADDRESS: "eureka-server:8761"
-      CONFIG_URL: "config-service:8762"
-      POSTGRES_ADDRESS: "postgres_users:5432"
-    deploy:
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    depends_on:
-      - config-service
-      - postgres_users
-      - shared_lib
+#  user-service:
+#    image: userserviceimage
+#    container_name: user-service
+#    build: ./user-service
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      PORT: 8081
+#      EUREKA_ADDRESS: "eureka-server:8761"
+#      CONFIG_URL: "config-service:8762"
+#      POSTGRES_ADDRESS: "postgres_users:5432"
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
+#        max_attempts: 3
+#    depends_on:
+#      - config-service
+#      - postgres_users
+#      - shared_lib
 #  auth-service:
 #    image: authserviceimage
 #    container_name: auth-service
@@ -136,21 +147,21 @@ services:
 #      - config-service
 #      - postgres_users
 #      - shared_lib
-#  market-service:
-#    image: marketserviceimage
-#    container_name: market-service
-#    build: ./market-service
-#    ports:
-#      - "8086:8086"
-#    environment:
-#      PORT: 8086
-#      EUREKA_ADDRESS: "eureka-server:8761"
-#      CONFIG_URL: "config-service:8762"
-#    deploy:
-#      restart_policy:
-#        condition: on-failure
-#        max_attempts: 3
-#    depends_on:
-#      - config-service
-#      - postgres_users
-#      - shared_lib
+  market-service:
+    image: marketserviceimage
+    container_name: market-service
+    build: ./market-service
+    ports:
+      - "8086:8086"
+    environment:
+      PORT: 8086
+      EUREKA_ADDRESS: "eureka-server:8761"
+      CONFIG_URL: "config-service:8762"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    depends_on:
+      - config-service
+      - postgres_users
+      - shared_lib

@@ -5,7 +5,7 @@ databaseChangeLog:
       changes:
         - sqlFile:
             dbms: postgresql
-            path: initial/users_table.sql
+            path: liquibase/initial/users_table.sql
             relativeToChangelogFile: true
   - changeSet:
       id: create superadmin
@@ -13,5 +13,5 @@ databaseChangeLog:
       changes:
         - sqlFile:
             dbms: postgresql
-            path: initial/superadmin.sql
+            path: liquibase/initial/superadmin.sql
             relativeToChangelogFile: true
