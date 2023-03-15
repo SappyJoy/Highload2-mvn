@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create users Table
-      author: belinracle
+      author: SappyJoy
       changes:
         - sqlFile:
             dbms: postgresql
@@ -9,7 +9,7 @@ databaseChangeLog:
             relativeToChangelogFile: true
   - changeSet:
       id: create superadmin
-      author: belinracle
+      author: SappyJoy
       changes:
         - sqlFile:
             dbms: postgresql
