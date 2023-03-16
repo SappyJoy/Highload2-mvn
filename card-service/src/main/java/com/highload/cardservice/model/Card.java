@@ -1,6 +1,8 @@
 package com.highload.cardservice.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.highload.feign.model.Content;
+import com.highload.feign.model.Person;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
