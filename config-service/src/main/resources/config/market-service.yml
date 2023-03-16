@@ -5,7 +5,7 @@ spring:
       sql:
         enabled: false
   datasource:
-    url: jdbc:postgresql://${POSTGRES_ADDRESS:localhost:5433}/market_service
+    url: jdbc:postgresql://${POSTGRES_ADDRESS}/market_service
     username: postgres
     password: postgres_password
     hikari:
@@ -14,4 +14,4 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update

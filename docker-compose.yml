@@ -25,14 +25,16 @@ services:
     restart: unless-stopped
   postgres_market:
     image: postgres:14.5-alpine
+    hostname: postgres_market
+    container_name: postgres_market
     environment:
       POSTGRES_DB: market_service
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres_password
     volumes:
-      - "./volumes/postgres_users:/var/lib/postgresql/data"
+      - "./volumes/postgres_market:/var/lib/postgresql/data"
     ports:
-      - "5433:5433"
+      - "5433:5432"
     restart: unless-stopped
   shared_lib:
     container_name: shared_lib
@@ -157,13 +159,14 @@ services:
       PORT: 8086
       EUREKA_ADDRESS: "eureka-server:8761"
       CONFIG_URL: "config-service:8762"
+      POSTGRES_ADDRESS: "postgres_market:5432"
     deploy:
       restart_policy:
         condition: on-failure
         max_attempts: 3
     depends_on:
       - config-service
-      - postgres_users
+      - postgres_market
       - shared_lib
   prometheus:
     image: prom/prometheus

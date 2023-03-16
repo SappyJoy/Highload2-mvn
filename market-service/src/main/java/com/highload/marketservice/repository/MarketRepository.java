@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @Repository
 public interface MarketRepository extends JpaRepository<Market, UUID> {
     Page<Market> findAll(Pageable pageable);
