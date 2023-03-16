@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "`CONTENT`")
-public class Content implements Serializable {
+public class Content extends com.highload.feign.model.Content implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "content_id")

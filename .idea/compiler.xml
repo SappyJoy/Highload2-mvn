@@ -17,6 +17,7 @@
         <module name="card-service" />
         <module name="order-service" />
         <module name="eureka-server" />
+        <module name="file-service" />
         <module name="market-service" />
       </profile>
     </annotationProcessing>
@@ -32,6 +33,7 @@
       <module name="config-service" options="-parameters" />
       <module name="content-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="file-service" options="-parameters" />
       <module name="market-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="order-service" options="-parameters" />

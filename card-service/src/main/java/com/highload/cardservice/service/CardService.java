@@ -66,4 +66,8 @@ public class CardService {
         modelMapper.map(modelMapper.map(cardDto, Card.class), oldCard);
         return modelMapper.map(cardRepository.save(oldCard), CardDto.class);
     }
+
+    public void insertCard(com.highload.feign.model.Card card) {
+        cardRepository.save(card);
+    }
 }
